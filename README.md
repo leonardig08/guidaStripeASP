@@ -291,4 +291,10 @@ Adesso si avrà un sistema di pagamento completamente funzionante per test
 Stripe-CLI dovrà essere tenuto in listening per fare funzionare il pagamento
 Se si vuole guadagnare bisognerà passare all'account live ma sarà necessario collegare stripe al proprio conto bancario
 
+
+Dimostrazione pagamento per test
+
+
+
+
 Spero che questa guida ti sia utile per integrare i pagamenti Stripe nella tua applicazione!
