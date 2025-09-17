@@ -144,7 +144,7 @@ Dopo il pagamento, Stripe reindirizza l'utente agli URL che hai specificato.
 
 ## 7. Installazione Stripe-CLI ⏬
 
-Per verificare che il pagamento sia andato a buon fine, dovrai usare un **webhook**. In ambiente di sviluppo, useremo **Stripe-CLI** per simulare la comunicazione con Stripe. !
+Per verificare che il pagamento sia andato a buon fine, dovrai usare un **webhook**, per usare il webhook i server stripe mandano la conferma che il pagamento è stato effettuato. In ambiente di sviluppo, useremo **Stripe-CLI** per simulare la comunicazione con Stripe.
 
 1.  **Installa Stripe-CLI**: vai alla [pagina GitHub per il download di Stripe-CLI](https://github.com/stripe/stripe-cli/releases) e scarica la versione appropriata per il tuo sistema operativo (ad es., `windows_x86_64`).
 ![immagine](img/10.png)
@@ -170,6 +170,125 @@ Per verificare che il pagamento sia andato a buon fine, dovrai usare un **webhoo
 
 ## 8. Configurazione WebHook Stripe 🕸
 
+Adesso dovremo implementare il webhook dentro la nostra app, e confermare l'ordine appena il segnale del pagamento arriva.
 
+1. Crea un nuovo controller nello stesso file del controller checkout, ci permetterà di gestire il segnale di Stripe. Ricordati di cambiare il contesto del database
+
+```csharp
+    [AllowAnonymous]
+[Route("api/stripe/webhook")]
+[ApiController]
+public class StripeWebhookController : ControllerBase
+{
+    private readonly ApexVolleyContext _context;
+    private readonly IConfiguration _config;
+    private readonly ILogger<StripeWebhookController> _logger;
+
+    public StripeWebhookController(ApexVolleyContext context, IConfiguration config, ILogger<StripeWebhookController> logger)
+    {
+        _context = context;
+        _config = config;
+        _logger = logger;
+    }
+}
+```
+
+2. Apri un nuovo cmd e digita. Ricorda di modificare l'indirizzo/la porta a quello del tuo sito. Non chiudere il cmd in quanto Stripe-CLI dovrà rimanere in ascolto per i pagamenti in fase di test
+
+```batch
+    stripe listen --forward-to http://localhost:8080/api/stripe/webhook
+```
+
+3. Stripe-CLI ci darà la chiave per verificare gli eventi webhook, sarà necessario copiarla per inserirla nella nostra applicazione
+
+![immagine](img/16.png)
+
+4. Copiare la chiave nell'appsettings.json sotto una nuova sezione
+
+```json
+    "Stripe": {
+	  "SecretKey": "sk_test_...",
+	  "PublishableKey": "pk_test_...",
+	  "WebhookSecret": "whsec_..." //Inserisci qui la chiave Webhook
+	}
+```
+
+5. Aggiungere un nuovo metodo post per gestire il messaggio di stripe, modificando come necessario il metodo. Nel mio caso vado eliminare il carrello attuale e a modificare lo stato dell'ordine da "Pending" a "Pagato" in modo che lo staff sa che è stato pagato correttamente
+	
+
+```csharp
+	[HttpPost]
+    public async Task<IActionResult> Index() {
+		var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+		var signature = Request.Headers["Stripe-Signature"];
+
+		try
+		{
+			_logger.LogInformation("➡️ Webhook Stripe chiamato");
+			var stripeEvent = EventUtility.ConstructEvent(json, signature, _config["Stripe:WebhookSecret"]);
+			_logger.LogInformation("Evento Stripe ricevuto: {EventType}", stripeEvent.Type);
+
+			if (stripeEvent.Type == "checkout.session.completed")
+			{
+				var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
+
+				if (session == null)
+				{
+					_logger.LogWarning("Session è null, impossibile elaborare l'evento");
+					return Ok();
+				}
+
+				_logger.LogInformation("Webhook ricevuto - SessionId: {SessionId}, PaymentStatus: {PaymentStatus}, ClientReferenceId: {ClientReferenceId}",
+					session.Id, session.PaymentStatus, session.ClientReferenceId);
+
+				if (string.IsNullOrEmpty(session.ClientReferenceId))
+				{
+					_logger.LogWarning("ClientReferenceId non impostato");
+					return Ok();
+				}
+
+				var orderId = int.Parse(session.ClientReferenceId);
+
+				var order = await _context.Orders
+					.Include(o => o.OrderItems)
+					.FirstOrDefaultAsync(o => o.Id == orderId && o.Status == "Pending");
+
+				if (order != null && session.PaymentStatus == "paid")
+				{
+					order.Status = "Pagato";
+					order.StripeSessionId = session.Id;
+
+					var cart = await _context.CartItems
+						.Where(c => c.UserId == order.UserId)
+						.ToListAsync();
+					_context.CartItems.RemoveRange(cart);
+
+					await _context.SaveChangesAsync();
+					_logger.LogInformation("Ordine {OrderId} aggiornato a Pagato e carrello rimosso", order.Id);
+				}
+				else
+				{
+					_logger.LogWarning("Ordine non trovato o pagamento non completato");
+				}
+			}
+
+			return Ok();
+		}
+		catch (StripeException ex)
+		{
+			_logger.LogError(ex, "Errore durante l'elaborazione del webhook Stripe");
+			return BadRequest();
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Errore generico nel webhook Stripe");
+			return BadRequest();
+		}
+}
+```
+
+Adesso si avrà un sistema di pagamento completamente funzionante per test
+Stripe-CLI dovrà essere tenuto in listening per fare funzionare il pagamento
+Se si vuole guadagnare bisognerà passare all'account live ma sarà necessario collegare stripe al proprio conto bancario
 
 Spero che questa guida ti sia utile per integrare i pagamenti Stripe nella tua applicazione!
