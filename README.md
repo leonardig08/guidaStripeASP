@@ -9,9 +9,13 @@ Questa guida ti mostrerà passo dopo passo come integrare il sistema di pagament
 Il primo passo è creare un account Stripe in modalità "sandbox" per i test.
 
 1.  **Registrati** sul [sito ufficiale di Stripe](https://stripe.com/). Puoi accedere rapidamente utilizzando il tuo account Google.
+!(img/1.jpg)
 2.  Completa il processo di creazione dell'account.
+!(img/2.jpg)
 3.  Una volta completato, clicca su **"Vai alla sandbox"** per attivare l'ambiente di test. !
+!(img/3.jpg)
 4.  Nel menu di navigazione, seleziona **"Sviluppatori"** e poi **"Chiavi API"**.
+!(img/4.jpg)
 
 ---
 
@@ -20,6 +24,7 @@ Il primo passo è creare un account Stripe in modalità "sandbox" per i test.
 Ora che hai le tue chiavi, le utilizzeremo per connettere la tua applicazione a Stripe.
 
 1.  Copia le due chiavi (la **Chiave Segreta** e la **Chiave Pubblicabile**) dalla console di Stripe.
+!(img/5.jpg)
 2.  Nel tuo progetto ASP.NET Core, apri il file `appsettings.json` e aggiungi la seguente sezione per memorizzare le chiavi:
 
     ```json
@@ -38,7 +43,9 @@ Ora la tua applicazione è pronta per interagire con l'API di Stripe!
 Per poter utilizzare l'API di Stripe nel tuo codice, devi installare la libreria ufficiale.
 
 1.  In Visual Studio, vai su **Strumenti** → **Gestione Pacchetti NuGet** → **Gestisci pacchetti NuGet per la soluzione...**.
+!(img/6.jpg)
 2.  Cerca il pacchetto **`Stripe.net`** e installalo nel tuo progetto.
+!(img/7.jpg)
 
 ---
 
@@ -140,8 +147,12 @@ Dopo il pagamento, Stripe reindirizza l'utente agli URL che hai specificato.
 Per verificare che il pagamento sia andato a buon fine, dovrai usare un **webhook**. In ambiente di sviluppo, useremo **Stripe-CLI** per simulare la comunicazione con Stripe. !
 
 1.  **Installa Stripe-CLI**: vai alla [pagina GitHub per il download di Stripe-CLI](https://github.com/stripe/stripe-cli/releases) e scarica la versione appropriata per il tuo sistema operativo (ad es., `windows_x86_64`).
+!(img/8.jpg)
 2.  Estrai il file `.zip` in una cartella a tua scelta.
+!(img/9.jpg)
 3.  Cerca e apri lo strumento per modificare le **variabili d'ambiente** del sistema.
+!(img/10.jpg)
 4.  Aggiungi il percorso dell'eseguibile di Stripe-CLI alla variabile di ambiente `Path`. !
+!(img/11.jpg)
 
 Spero che questa guida ti sia utile per integrare i pagamenti Stripe nella tua applicazione!
