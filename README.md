@@ -1,7 +1,7 @@
 # Guida all'Implementazione di Stripe su ASP.NET Core 🚀
 
 Questa guida ti mostrerà passo dopo passo come integrare il sistema di pagamento **Stripe** nella tua applicazione **ASP.NET Core**. Prima di iniziare, assicurati di avere già un'applicazione web con un negozio, un sistema di checkout e un sistema di gestione degli account utente già funzionanti.
-
+![immagine](img/1.png)
 ---
 
 ## 1. Configurazione dell'Account Stripe 🔑
@@ -9,13 +9,13 @@ Questa guida ti mostrerà passo dopo passo come integrare il sistema di pagament
 Il primo passo è creare un account Stripe in modalità "sandbox" per i test.
 
 1.  **Registrati** sul [sito ufficiale di Stripe](https://stripe.com/). Puoi accedere rapidamente utilizzando il tuo account Google.
-![immagine](img/1.png)
-2.  Completa il processo di creazione dell'account.
 ![immagine](img/2.png)
-3.  Una volta completato, clicca su **"Vai alla sandbox"** per attivare l'ambiente di test. !
+2.  Completa il processo di creazione dell'account.
 ![immagine](img/3.png)
-4.  Nel menu di navigazione, seleziona **"Sviluppatori"** e poi **"Chiavi API"**.
+3.  Una volta completato, clicca su **"Vai alla sandbox"** per attivare l'ambiente di test. !
 ![immagine](img/4.png)
+4.  Nel menu di navigazione, seleziona **"Sviluppatori"** e poi **"Chiavi API"**.
+![immagine](img/5.png)
 
 ---
 
@@ -24,7 +24,7 @@ Il primo passo è creare un account Stripe in modalità "sandbox" per i test.
 Ora che hai le tue chiavi, le utilizzeremo per connettere la tua applicazione a Stripe.
 
 1.  Copia le due chiavi (la **Chiave Segreta** e la **Chiave Pubblicabile**) dalla console di Stripe.
-![immagine](img/5.png)
+![immagine](img/7.png)
 2.  Nel tuo progetto ASP.NET Core, apri il file `appsettings.json` e aggiungi la seguente sezione per memorizzare le chiavi:
 
     ```json
@@ -43,9 +43,9 @@ Ora la tua applicazione è pronta per interagire con l'API di Stripe!
 Per poter utilizzare l'API di Stripe nel tuo codice, devi installare la libreria ufficiale.
 
 1.  In Visual Studio, vai su **Strumenti** → **Gestione Pacchetti NuGet** → **Gestisci pacchetti NuGet per la soluzione...**.
-![immagine](img/6.png)
+![immagine](img/8.png)
 2.  Cerca il pacchetto **`Stripe.net`** e installalo nel tuo progetto.
-![immagine](img/7.png)
+![immagine](img/9.png)
 
 ---
 
@@ -147,12 +147,12 @@ Dopo il pagamento, Stripe reindirizza l'utente agli URL che hai specificato.
 Per verificare che il pagamento sia andato a buon fine, dovrai usare un **webhook**. In ambiente di sviluppo, useremo **Stripe-CLI** per simulare la comunicazione con Stripe. !
 
 1.  **Installa Stripe-CLI**: vai alla [pagina GitHub per il download di Stripe-CLI](https://github.com/stripe/stripe-cli/releases) e scarica la versione appropriata per il tuo sistema operativo (ad es., `windows_x86_64`).
-![immagine](img/8.png)
-2.  Estrai il file `.zip` in una cartella a tua scelta.
-![immagine](img/9.png)
-3.  Cerca e apri lo strumento per modificare le **variabili d'ambiente** del sistema.
 ![immagine](img/10.png)
-4.  Aggiungi il percorso dell'eseguibile di Stripe-CLI alla variabile di ambiente `Path`. !
+2.  Estrai il file `.zip` in una cartella a tua scelta.
 ![immagine](img/11.png)
+3.  Cerca e apri lo strumento per modificare le **variabili d'ambiente** del sistema.
+![immagine](img/12.png)
+4.  Aggiungi il percorso dell'eseguibile di Stripe-CLI alla variabile di ambiente `Path`. !
+![immagine](img/13.png)
 
 Spero che questa guida ti sia utile per integrare i pagamenti Stripe nella tua applicazione!
