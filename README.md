@@ -294,6 +294,7 @@ Se si vuole guadagnare bisognerà passare all'account live ma sarà necessario c
 
 Dimostrazione pagamento per test
 
+https://github.com/user-attachments/assets/80c18647-1246-489a-89ea-460c791f8664
 
 
 
