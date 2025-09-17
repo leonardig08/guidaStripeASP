@@ -142,7 +142,7 @@ Dopo il pagamento, Stripe reindirizza l'utente agli URL che hai specificato.
 
 ---
 
-## 7. Verifica dei Pagamenti con Stripe-CLI e Webhook 🕸️
+## 7. Installazione Stripe-CLI ⏬
 
 Per verificare che il pagamento sia andato a buon fine, dovrai usare un **webhook**. In ambiente di sviluppo, useremo **Stripe-CLI** per simulare la comunicazione con Stripe. !
 
@@ -153,11 +153,18 @@ Per verificare che il pagamento sia andato a buon fine, dovrai usare un **webhoo
 3.  Cerca e apri lo strumento per modificare le **variabili d'ambiente** del sistema.
 ![immagine](img/12.png)
 4. Premere "Variabili d'ambiente".
+
 ![immagine](img/14.png)
 5.  Seleziona `Path` sotto variabili di sistema e premi modifica.
 ![immagine](img/13.png)
 6. Premere "Nuovo" e inserire il percorso della cartella estratta di stripe-CLI.
 ![immagine](img/15.png)
+7. Uscire premendo OK
+
+---
+
+## 8. Configurazione WebHook Stripe 🕸
+
 
 
 Spero che questa guida ti sia utile per integrare i pagamenti Stripe nella tua applicazione!
