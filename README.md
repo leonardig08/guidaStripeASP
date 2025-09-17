@@ -152,7 +152,12 @@ Per verificare che il pagamento sia andato a buon fine, dovrai usare un **webhoo
 ![immagine](img/11.png)
 3.  Cerca e apri lo strumento per modificare le **variabili d'ambiente** del sistema.
 ![immagine](img/12.png)
-4.  Aggiungi il percorso dell'eseguibile di Stripe-CLI alla variabile di ambiente `Path`. !
+4. Premere "Variabili d'ambiente".
+[immagine](img/14.png)
+5.  Seleziona `Path` sotto variabili di sistema e premi modifica.
 ![immagine](img/13.png)
+6. Premere "Nuovo" e inserire il percorso della cartella estratta di stripe-CLI.
+![immagine](img/15.png)
+
 
 Spero che questa guida ti sia utile per integrare i pagamenti Stripe nella tua applicazione!
