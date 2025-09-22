@@ -15,7 +15,7 @@ Il primo passo è creare un account Stripe in modalità "sandbox" per i test.
 3.  Una volta completato, clicca su **"Vai alla sandbox"** per attivare l'ambiente di test. !
 ![immagine](img/4.png)
 4.  Nel menu di navigazione, seleziona **"Sviluppatori"** e poi **"Chiavi API"**.
-![immagine](img/5.png)
+![immagine](img/6.png)
 
 ---
 
