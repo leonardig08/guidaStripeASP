@@ -2,6 +2,8 @@
 
 Questa guida ti mostrerà passo dopo passo come integrare il sistema di pagamento **Stripe** nella tua applicazione **ASP.NET Core**. Prima di iniziare, assicurati di avere già un'applicazione web con un negozio, un sistema di checkout e un sistema di gestione degli account utente già funzionanti.
 ![immagine](img/1.png)
+
+
 ---
 
 ## 1. Configurazione dell'Account Stripe 🔑
